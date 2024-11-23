@@ -11,7 +11,8 @@ func main() {
 	application := app()
 
 	application.Gin.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+		request := newRequest(c)
+		request.context.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
