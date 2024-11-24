@@ -24,6 +24,15 @@ func req() func(c *gin.Context) Request {
 	}
 }
 
+// Handel Response
+func (req Request) Ok(body interface{}) {
+	req.Response(200, body)
+}
+func (req Request) Response(code int, body interface{}) {
+	req.connection.Close()
+	req.context.JSON(code, body)
+}
+
 // init new request
 
 func newRequest(c *gin.Context) Request {
@@ -52,7 +61,7 @@ func connectionToDataBase() (*gorm.DB, *sql.DB) {
 
 }
 
-// close data base connection
+// close database connection
 func (req Request) closeDatabaseConnection() {
 	req.connection.Close()
 }
