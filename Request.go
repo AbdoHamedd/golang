@@ -24,10 +24,6 @@ func req() func(c *gin.Context) Request {
 	}
 }
 
-// Handel Response
-func (req Request) Ok(body interface{}) {
-	req.Response(200, body)
-}
 func (req Request) Response(code int, body interface{}) {
 	req.connection.Close()
 	req.context.JSON(code, body)
