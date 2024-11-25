@@ -1,16 +1,16 @@
 package main
 
 import (
+	"1/Application"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	app := app()
-	application := app()
+	app := Application.NewApp()
 
-	application.Gin.GET("/ping", func(c *gin.Context) {
-		request := newRequest(c)
+	app.Gin.GET("/ping", func(c *gin.Context) {
+		request := Application.NewRequest(c)
 
 		request.Ok(gin.H{
 			"message": "Hi All",
@@ -25,5 +25,5 @@ func main() {
 		//})
 	})
 
-	application.Gin.Run()
+	app.Gin.Run()
 }
