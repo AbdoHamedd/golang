@@ -31,7 +31,7 @@ func req() func(c *gin.Context) Request {
 }
 
 func (req Request) Response(code int, body interface{}) {
-	closeDatabaseConnection(&req)
+	CloseDatabaseConnection(&req)
 	req.context.JSON(code, body)
 }
 

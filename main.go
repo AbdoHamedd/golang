@@ -2,28 +2,25 @@ package main
 
 import (
 	"1/Application"
-	"github.com/gin-gonic/gin"
+	"1/Models"
+	"1/Routes"
 )
 
 func main() {
 
+	//git app
 	app := Application.NewApp()
 
-	app.Gin.GET("/ping", func(c *gin.Context) {
-		request := Application.NewRequest(c)
+	//Migrate Project
+	app.DB.AutoMigrate(&Models.User{})
 
-		request.Ok(gin.H{
-			"message": "Hi All",
-		})
+	//Close Connection App
+	Application.CloseDatabaseConnection(&app)
 
-		//request.Response(200, gin.H{
-		//	"message": "Hi All",
-		//})
+	//Start routing
+	routerApp := Routes.RouterApp{&app}
+	routerApp.Routing()
 
-		//request.context.JSON(http.StatusOK, gin.H{
-		//	"message": "pong",
-		//})
-	})
-
+	//Start Server app
 	app.Gin.Run()
 }
