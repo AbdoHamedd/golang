@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"github.com/bykovme/gotrans"
 	"project1/Application"
 	"project1/Models"
 	"project1/Routes"
@@ -10,12 +8,8 @@ import (
 
 func main() {
 
-	gotrans.InitLocales("./Public/Lang") //  Path to the folder with localization files
-	gotrans.SetDefaultLocale("re")       // Setting default locale
-
-	fmt.Println(gotrans.T("hello_world"))
-
 	//git app/                  (1)
+
 	app := Application.NewApp()
 
 	//Migrate Project

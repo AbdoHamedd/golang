@@ -2,6 +2,7 @@ package Application
 
 import (
 	"database/sql"
+	"github.com/bykovme/gotrans"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"project1/Models"
@@ -17,6 +18,7 @@ type Request struct {
 	connection *sql.DB
 	User       Models.User
 	IsAuth     bool
+	Lang       string
 }
 
 // handel request closure          (1)
@@ -25,8 +27,15 @@ func req() func(c *gin.Context) *Request {
 		var request Request
 		request.context = c
 		connectionToDataBase(&request)
+		setLang(&request)
 		return &request
 	}
+}
+
+func setLang(request *Request) {
+	lang := gotrans.DetectLanguage(request.context.GetHeader("Accept-Language"))
+	gotrans.SetDefaultLocale(lang)
+	request.Lang = lang
 }
 
 // init new request for a new Api Like in The Users
