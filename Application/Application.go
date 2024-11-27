@@ -12,22 +12,22 @@ type Application struct {
 	connection *sql.DB
 }
 
-func NewApp() Application {
+// ( 1)
+func App() func() *Application {
+	return func() *Application {
+		var application Application
+		application.Gin = gin.Default()
+		connectionToDataBase(&application)
+		return &application
+
+	}
+}
+
+func NewApp() *Application {
 	app := App()
-	aplication := app()
-	return aplication
+	return app()
 }
 
 func (req *Application) Share() {
 
-}
-
-func App() func() Application {
-	return func() Application {
-		var application Application
-		application.Gin = gin.Default()
-		connectionToDataBase(&application)
-		return application
-
-	}
 }

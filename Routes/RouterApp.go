@@ -1,6 +1,6 @@
 package Routes
 
-import "1/Application"
+import "project1/Application"
 
 type RouterApp struct {
 	*Application.Application

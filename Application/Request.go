@@ -1,10 +1,10 @@
 package Application
 
 import (
-	"1/Models"
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"project1/Models"
 )
 
 type ShareResorces interface {
@@ -19,6 +19,46 @@ type Request struct {
 	IsAuth     bool
 }
 
+// handel request closure          (1)
+func req() func(c *gin.Context) *Request {
+	return func(c *gin.Context) *Request {
+		var request Request
+		request.context = c
+		connectionToDataBase(&request)
+		return &request
+	}
+}
+
+// init new request for a new Api Like in The Users
+func NewRequest(c *gin.Context) *Request {
+	request := req()
+	return request(c)
+
+}
+
+// New
+func NewREQUESTwithAUTN(c *gin.Context) Request {
+	return NewRequest(c).Auth()
+}
+
+func AuthRequest(c *gin.Context) (*Request, bool) {
+	request := NewREQUESTwithAUTN(c)
+	if !request.IsAuth {
+		request.NotAuth()
+		return &request, false
+	}
+	return &request, true
+}
+
+func (req Request) Response(code int, body interface{}) {
+	CloseDatabaseConnection(&req)
+	req.context.JSON(code, body)
+}
+
+func (req *Request) Share() {
+
+}
+
 func (req Request) Auth() Request {
 	req.IsAuth = false
 	authHeader := req.context.GetHeader("Authorization")
@@ -29,31 +69,4 @@ func (req Request) Auth() Request {
 		}
 	}
 	return req
-}
-
-func (req *Request) Share() {
-
-}
-
-// handel request closure
-func req() func(c *gin.Context) Request {
-	return func(c *gin.Context) Request {
-		var request Request
-		request.context = c
-		connectionToDataBase(&request)
-		return request
-	}
-}
-
-func (req Request) Response(code int, body interface{}) {
-	CloseDatabaseConnection(&req)
-	req.context.JSON(code, body)
-}
-
-// init new request
-func NewRequest(c *gin.Context) Request {
-	request := req()
-	req := request(c)
-	return req
-
 }

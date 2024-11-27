@@ -1,24 +1,31 @@
 package main
 
 import (
-	"1/Application"
-	"1/Models"
-	"1/Routes"
+	"fmt"
+	"github.com/bykovme/gotrans"
+	"project1/Application"
+	"project1/Models"
+	"project1/Routes"
 )
 
 func main() {
 
-	//git app
+	gotrans.InitLocales("./Public/Lang") //  Path to the folder with localization files
+	gotrans.SetDefaultLocale("re")       // Setting default locale
+
+	fmt.Println(gotrans.T("hello_world"))
+
+	//git app/                  (1)
 	app := Application.NewApp()
 
 	//Migrate Project
 	app.DB.AutoMigrate(&Models.User{})
 
 	//Close Connection App
-	Application.CloseDatabaseConnection(&app)
+	Application.CloseDatabaseConnection(app)
 
 	//Start routing
-	routerApp := Routes.RouterApp{&app}
+	routerApp := Routes.RouterApp{app}
 	routerApp.Routing()
 
 	//Start Server app
