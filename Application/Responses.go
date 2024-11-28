@@ -18,3 +18,8 @@ func (req Request) NotAuth() {
 func (req Request) BadRequest(error interface{}) {
 	req.Response(422, error)
 }
+func (req Request) UserNoutFound() {
+	req.Response(404, gin.H{
+		"message": "We Not Found this user in our system",
+	})
+}

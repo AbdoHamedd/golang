@@ -34,8 +34,9 @@ func req() func(c *gin.Context) *Request {
 	}
 }
 
-func (req Request) ValidateRequest(errors validation.Errors) {
+func (req *Request) ValidateRequest(errors validation.Errors) *Request {
 	req.ValidationError = errors.Filter()
+	return req
 }
 
 func (req Request) Fails() bool {
