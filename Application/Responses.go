@@ -15,3 +15,6 @@ func (req Request) NotAuth() {
 		"message": "Yoy are Not Authorized",
 	})
 }
+func (req Request) BadRequest(error interface{}) {
+	req.Response(422, error)
+}

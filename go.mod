@@ -5,11 +5,13 @@ go 1.23.2
 require (
 	github.com/bykovme/gotrans v1.1.0
 	github.com/gin-gonic/gin v1.10.0
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496 // indirect
 	github.com/bytedance/sonic v1.12.4 // indirect
 	github.com/bytedance/sonic/loader v0.2.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
