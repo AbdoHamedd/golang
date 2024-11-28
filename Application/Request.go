@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/bykovme/gotrans"
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"gorm.io/gorm"
 	"project1/Models"
 )
@@ -13,12 +14,13 @@ type ShareResorces interface {
 }
 
 type Request struct {
-	Context    *gin.Context
-	DB         *gorm.DB
-	connection *sql.DB
-	User       Models.User
-	IsAuth     bool
-	Lang       string
+	Context         *gin.Context
+	DB              *gorm.DB
+	connection      *sql.DB
+	User            Models.User
+	IsAuth          bool
+	Lang            string
+	ValidationError error
 }
 
 // handel request closure          (1)
@@ -30,6 +32,10 @@ func req() func(c *gin.Context) *Request {
 		setLang(&request)
 		return &request
 	}
+}
+
+func (req Request) ValidateRequest(errors validation.Errors) {
+	req.ValidationError = errors.Filter()
 }
 
 func setLang(request *Request) {

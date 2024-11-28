@@ -2,24 +2,20 @@ package Visitors
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"project1/Application"
 	"project1/Models"
+	"project1/Validations/Visitors"
 )
 
 func Register(c *gin.Context) {
-	r := Application.NewREQUESTwithAUTN(c)
+	r := Application.NewRequest(c)
 	var User Models.User
 	//binding
 	r.Context.ShouldBind(&User)
-	err := validation.Errors{
-		"name":     validation.Validate(User.UserName, validation.Required, validation.Length(2, 20)),
-		"email":    validation.Validate(User.Email, validation.Required, is.Email, validation.Length(5, 20)),
-		"password": validation.Validate(User.Password, validation.Required, validation.Length(5, 20)),
-	}.Filter()
-	if err != nil {
-		r.BadRequest(err)
+	//validate the requeset
+	r.ValidateRequest(Visitors.RegisterValidation(User))
+	if r.ValidationError != nil {
+		r.BadRequest(r.ValidationError)
 		return
 	}
 	r.Ok(User)
