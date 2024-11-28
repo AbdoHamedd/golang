@@ -38,6 +38,14 @@ func (req Request) ValidateRequest(errors validation.Errors) {
 	req.ValidationError = errors.Filter()
 }
 
+func (req Request) Fails() bool {
+	if req.ValidationError != nil {
+		req.BadRequest(req.ValidationError)
+		return true
+	}
+	return false
+}
+
 func setLang(request *Request) {
 	lang := gotrans.DetectLanguage(request.Context.GetHeader("Accept-Language"))
 	gotrans.SetDefaultLocale(lang)

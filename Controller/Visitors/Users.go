@@ -14,9 +14,11 @@ func Register(c *gin.Context) {
 	r.Context.ShouldBind(&User)
 	//validate the requeset
 	r.ValidateRequest(Visitors.RegisterValidation(User))
-	if r.ValidationError != nil {
-		r.BadRequest(r.ValidationError)
+	if r.Fails() {
 		return
 	}
-	r.Ok(User)
+	User.Token = User.Email
+	User.Group = "user"
+	r.DB.Create(&User)
+	r.Created(User)
 }
