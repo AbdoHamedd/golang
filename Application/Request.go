@@ -75,7 +75,7 @@ func AuthRequest(c *gin.Context) (*Request, bool) {
 	return request, true
 }
 
-func (req Request) Response(code int, body interface{}) {
+func (req Request) Response(code int, body map[string]interface{}) {
 	CloseDatabaseConnection(&req)
 	req.Context.JSON(code, body)
 }
