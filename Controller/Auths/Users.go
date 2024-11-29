@@ -13,4 +13,5 @@ func Me(c *gin.Context) {
 		return
 	}
 	request.Ok(Transformer.UserTransformer(*request.User))
+	//request.Ok(request.User.Transformer())
 }

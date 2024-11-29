@@ -21,6 +21,7 @@ func Register(c *gin.Context) {
 	User.Group = "user"
 	r.DB.Create(&User)
 	r.Created(Transformer.UserTransformer(User))
+	//r.Created(User.Transformer())
 }
 
 func Login(c *gin.Context) {
@@ -36,4 +37,5 @@ func Login(c *gin.Context) {
 		return
 	}
 	r.Ok(Transformer.UserTransformer(User))
+	//r.Ok(User.Transformer())
 }
