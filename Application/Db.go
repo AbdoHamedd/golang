@@ -26,7 +26,7 @@ func returnConnection(db *gorm.DB) *sql.DB {
 	return connection
 }
 
-// connect to data base
+// connect to database by the share interface that we do on request directory
 func connectionToDataBase(share ShareResorces) {
 	switch share.(type) {
 	case *Application:
@@ -41,7 +41,13 @@ func connectionToDataBase(share ShareResorces) {
 	}
 }
 
-// close database connection
+/*
+	closeDatabaseConnection
+
+=> used one after the migrate
+&
+befor sending the Response
+*/
 func CloseDatabaseConnection(share ShareResorces) {
 	switch share.(type) {
 	case *Application:

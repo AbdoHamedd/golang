@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"project1/Application"
 	"project1/Models"
+	Transformer "project1/Transformers/Visitors"
 	"project1/Validations/Visitors"
 )
 
@@ -19,7 +20,7 @@ func Register(c *gin.Context) {
 	User.Token = User.Email
 	User.Group = "user"
 	r.DB.Create(&User)
-	r.Created(User)
+	r.Created(Transformer.UserTransformer(User))
 }
 
 func Login(c *gin.Context) {
@@ -34,5 +35,5 @@ func Login(c *gin.Context) {
 		r.UserNoutFound()
 		return
 	}
-	r.Ok(User)
+	r.Ok(Transformer.UserTransformer(User))
 }

@@ -17,7 +17,7 @@ type Request struct {
 	Context         *gin.Context
 	DB              *gorm.DB
 	connection      *sql.DB
-	User            Models.User
+	User            *Models.User
 	IsAuth          bool
 	Lang            string
 	ValidationError error
@@ -27,8 +27,11 @@ type Request struct {
 func req() func(c *gin.Context) *Request {
 	return func(c *gin.Context) *Request {
 		var request Request
+		//1-get the context
 		request.Context = c
+		//3-connect to database
 		connectionToDataBase(&request)
+		//4-Set Language after request
 		setLang(&request)
 		return &request
 	}
