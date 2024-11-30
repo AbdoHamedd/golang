@@ -5,10 +5,18 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"os"
 )
 
 func makeConnections() *gorm.DB {
-	dsn := "root:@tcp(127.0.0.1:3306)/golang?charset=utf8mb4&parseTime=True&loc=Local"
+	user := os.Getenv("DATABASE_USER_NAME")
+	//password := os.Getenv("DATABASE_USER_PASSWORD")
+	host := os.Getenv("DATABASE_USER_HOST")
+	port := os.Getenv("DATABASE_USER_PORT")
+	dbName := os.Getenv("DATABASE_NAME")
+
+	// Construct the DSN (Data Source Name)
+	dsn := user + ":" + "@tcp(" + host + ":" + port + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
