@@ -6,6 +6,7 @@ import (
 	"github.com/bykovme/gotrans"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"project1/Database"
 )
 
 type Application struct {
@@ -41,4 +42,9 @@ func NewApp() *Application {
 // Need This Function To COnnect and Close connection with database
 func (req *Application) Share() {
 
+}
+
+// For Migrate
+func (app *Application) Migrate() {
+	Database.Migrate(app.DB)
 }
