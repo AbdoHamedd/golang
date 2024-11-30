@@ -10,4 +10,3 @@ func Migrate(DB *gorm.DB) {
 		&Models.User{},
 	)
 }
- 

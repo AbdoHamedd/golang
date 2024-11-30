@@ -14,6 +14,9 @@ func main() {
 	//Migrate Project
 	app.Migrate()
 
+	//Seed Data
+	app.Seed()
+
 	//Close Connection App
 	Application.CloseDatabaseConnection(app)
 
